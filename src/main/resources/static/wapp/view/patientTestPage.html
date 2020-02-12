@@ -1,0 +1,94 @@
+<div>
+    <div class="row p-0">
+        <div class="col-sm-2">
+            <label class="font-size-sm">Patient Billing # : </label>
+        </div>
+        <div class="col-sm-2">
+            <input ng-model="uicompo.billingNumber" type="text" style="width: 150px;">
+        </div>
+        <div class="col-sm-4">
+            <button class="btn btn-warning mr-1" ng-click="loadByBillingNum();"
+                    type="button">
+                <i aria-hidden="true" class="fa fa-search"></i></button>
+            <button class="btn btn-danger" ng-click="loadInitList();"
+                    type="button">
+                <i aria-hidden="true" class="fa fa-broom"></i></button>
+        </div>
+        <div class="col-sm-3 content-right">
+            <input class="form-control" ng-model="searchKeyword" placeholder="Search" type="text">
+        </div>
+    </div>
+</div>
+<div ng-show ="uicompo.showPatient" class="container rounded " style="border:1px solid darkgreen">
+    <div class="col-12 pt-1">
+        <div class="row form-group">
+            <div class="col-sm-4">
+                <div class="col-sm-6">
+                    <label class="font-size-sm">Patient Name</label>
+                </div>
+                <div class="col-sm-4">
+                    <span>{{patient.patientName}}</span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="col-sm-6">
+                    <label class="font-size-sm">District</label>
+                </div>
+                <div class="col-sm-4">
+                    <span>{{patient.districtName}}</span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="col-sm-6">
+                    <label class="font-size-sm">Date</label>
+                </div>
+                <div class="col-sm-4">
+                    <span>{{patient.dateCreated | date:'short'}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="raw view">
+    <div class="wrapper table table-sm table-hover table-bordered" id="parent">
+        <table class="table" id="fixTable">
+            <thead class="bg-secondary text-light">
+            <tr>
+                <th>testNumber</th>
+                <th>patientId</th>
+                <th>testType</th>
+                <th>billingNumber</th>
+                <th>name</th>
+                <th>price</th>
+                <th>reference</th>
+                <th>units</th>
+                <th>results</th>
+                <th>seenBy</th>
+                <th>actionBy</th>
+                <th>dateCreated</th>
+                <th>lastModified</th>
+                <th>status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="itm in patientMediTestList | filter : searchKeyword">
+                <td>{{itm.testNumber}}</td>
+                <td>{{itm.patientId}}</td>
+                <td>{{itm.testType}}</td>
+                <td>{{itm.billingNumber}}</td>
+                <td>{{itm.name}}</td>
+                <td>{{itm.price}}</td>
+                <td>{{itm.reference}}</td>
+                <td>{{itm.units}}</td>
+                <td>{{itm.results}}</td>
+                <td>{{itm.seenBy}}</td>
+                <td>{{itm.actionBy}}</td>
+                <td>{{itm.dateCreated | date:'shortDate'}}</td>
+                <td>{{itm.lastModified | date:'shortDate'}}</td>
+                <td>{{itm.status}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

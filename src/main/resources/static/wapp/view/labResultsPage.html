@@ -1,0 +1,95 @@
+<div class="container">
+    <div class="row">
+    <div class="col-8 pt-0 pb-1">
+        <div class="row">
+            <div class="col-sm-2">
+                <label class="font-size-sm">Billing #</label>
+            </div>
+            <div class="col-sm-3">
+                <input class="form-control" ng-model="uicompo.billingNumber" placeholder="Ex:20P0010" type="text">
+            </div>
+            <div class="col-sm-1 pl-1">
+                <button class="btn btn-warning" class="form-control" ng-click="loadByBillingNum();"
+                        type="button">
+                    <i aria-hidden="true" class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div ng-show="uicompo.showContent">
+        <div class="row pt-3 pb-2">
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label class="font-size-sm">Patient</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <span>{{patient.patientName}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label class="font-size-sm">District</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <span>{{patient.districtName}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label class="font-size-sm">Date</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <span>{{patient.dateCreated | date:'short'}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8"></div>
+            <div class="col-sm-4">
+                <input class="form-control" ng-model="searchKeyword" placeholder="Search" type="text">
+            </div>
+        </div>
+
+        <div class="raw view">
+            <div class="wrapper table table-sm table-hover table-bordered" id="parent">
+                <table class="table" id="fixTable">
+                    <thead class="bg-secondary text-light">
+                    <tr>
+                        <th width="5%">Date</th>
+                        <th width="5%">#</th>
+                        <th width="20%">Test Name</th>
+                        <th width="20%">Reference</th>
+                        <th width="5%">Units</th>
+                        <th width="3%">Results</th>
+                        <th width="1%">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="itm in patientMediTestList | filter : searchKeyword">
+                        <td>{{itm.dateCreated | date:'shortDate'}}</td>
+                        <td>{{itm.testNumber}}</td>
+                        <td>{{itm.name}}</td>
+                        <td>{{itm.reference}}</td>
+                        <td>{{itm.units}}</td>
+                        <td><input class="form-control" ng-model="itm.results" style="width: 100px" type="text"></td>
+                        <td>
+                            <button class="btn btn-primary pr-sm-1" ng-click="upDateResult(itm);"
+                                    style="width: 45px;"
+                                    title="Update Test Results"
+                                    type="button"><i
+                                    class="fa fa-plus-circle"></i></button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

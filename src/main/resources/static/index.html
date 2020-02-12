@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Medical Data Analysis System</title>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css"
+          rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/c3.min.css" rel="stylesheet">
+
+
+    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
+
+    <script src="//code.angularjs.org/1.6.0/angular.min.js"></script>
+    <script src="//code.angularjs.org/1.6.0/angular-route.min.js"></script>
+    <script src="//code.angularjs.org/1.6.0/angular-cookies.min.js"></script>
+
+
+    <script src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.js"></script>
+
+    <script src="wapp/app.js"></script>
+    <script src="wapp/controller/LoginController.js"></script>
+    <script src="wapp/controller/UserAdminController.js"></script>
+    <script src="wapp/controller/PatientController.js"></script>
+    <script src="wapp/controller/DashboardController.js"></script>
+    <script src="wapp/controller/LogoutController.js"></script>
+    <script src="wapp/controller/BillingController.js"></script>
+    <script src="wapp/controller/MedicalTestController.js"></script>
+    <script src="wapp/controller/LabResultsController.js"></script>
+    <script src="wapp/controller/PatientTestController.js"></script>
+    <script src="wapp/controller/DailyPatientController.js"></script>
+    <script src="wapp/controller/ScreenAccessController.js"></script>
+    <script src="wapp/controller/UserScreenController.js"></script>
+    <script src="wapp/controller/ScanningController.js"></script>
+    <script src="wapp/controller/DateRangeAnalysisController.js"></script>
+    <script src="wapp/controller/utils/DataLoaderController.js"></script>
+
+    <script src="wapp/app-services/authentication.service.js"></script>
+    <script src="wapp/app-services/user.service.js"></script>
+    <script src="wapp/app-services/flash.service.js"></script>
+    <script src="wapp/app-services/pop.service.js"></script>
+
+</head>
+<body ng-app="app">
+<div class="wrapper ">
+<!--    <div class="delay d-flex align-items-center justify-content-center" ng-show="showDelay">
+        <div class="d-flex flex-row justify-content-center align-items-center">Loading please wait ....</div>
+    </div>-->
+
+<!--    <div class="overlay"></div>-->
+
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h4><a href="#!dashboard">Medical Data Analysis System</a></h4>
+        </div>
+
+        <ul class="list-unstyled components">
+            <span style="color: darkred"><h5 style="padding-left: 20px;">Nuclear Medicine Unit</h5></span>
+            <li class="active">
+                <a href="#!billing">Billing</a>
+            </li>
+            <li>
+                <a aria-expanded="false" class="dropdown-toggle" data-toggle="collapse" href="#homeSubmenu">Medical</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li>
+                        <a href="#!meditest">Test Setup</a>
+                    </li>
+                    <li>
+                        <a href="#!patient">Patient</a>
+                    </li>
+                    <li>
+                        <a href="#!scanning">Scanning</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a aria-expanded="false" class="dropdown-toggle" data-toggle="collapse" href="#homeSubmenu1">Lab</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu1">
+                    <li>
+                        <a href="#!labresults">Enter Test Results</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a aria-expanded="false" class="dropdown-toggle" data-toggle="collapse" href="#homeSubmenu2">Reports</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu2">
+                    <li>
+                        <a href="#!dailypatientreport">Daily Patient Report</a>
+                    </li>
+                    <li>
+                        <a href="#!patienttest">Test by Patient</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a aria-expanded="false" class="dropdown-toggle" data-toggle="collapse" href="#homeSubmenu0">Administration</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu0">
+                    <li>
+                        <a href="#!useradmin">User Admin</a>
+                    </li>
+                    <li>
+                        <a href="#!screenaccess">Screen Setup</a>
+                    </li>
+                    <li>
+                        <a href="#!userscreen">User Screen Setup</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a aria-expanded="false" class="dropdown-toggle" data-toggle="collapse" href="#homeSubmenu3">Data
+                    Analysis</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu3">
+                    <li>
+                        <a href="#!daterange">Based on Dates</a>
+                    </li>
+                    <li>
+                        <a href="#!dataLoader">Loader</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul class="list-unstyled CTAs">
+            <li>
+                <a class="download" href="#">Information</a>
+            </li>
+            <li>
+                <a class="article" href="#">Article</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="content" style="padding-top: 4px;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 1px; padding-bottom: 0px;">
+            <div class="container-fluid">
+
+                <button class="navbar-btn" id="sidebarCollapse" testType="button">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                        class="btn btn-dark d-inline-block d-lg-none ml-auto" data-target="#navbarSupportedContent"
+                        data-toggle="collapse" testType="button">
+                    <i class="fas fa-align-justify"></i>
+                </button>
+                &nbsp&nbsp;{{pageTitle}}&nbsp;
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent"
+                     style="padding-top: 0; padding-left: 0;">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item justify-content-sm-start">
+                            <a class="nav-link" href="#"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">&nbsp;</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{loggedUser}}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{presentDate | date:'short'}}</a>
+                        </li>
+                        <li class="nav-item">
+                            <div ng-show="loggedUser"><a class="nav-link active" href="#!logout">Logout</a></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid pt-1">
+            <div ng-view></div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script crossorigin="anonymous"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script testType="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+</body>
+</html>

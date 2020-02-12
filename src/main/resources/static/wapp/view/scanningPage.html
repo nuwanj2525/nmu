@@ -1,0 +1,314 @@
+<div class="container rounded" style="border:0px solid blanchedalmond">
+    <div class="row p-1">
+        <div class="col-sm-4">
+            <div class="form-group row pt-0 pb-0">
+
+                <div>
+                    <label class="font-size-sm">Billing #</label>
+                </div>
+                <div class="pr-2 pl-1">
+                    <input class="form-control" ng-model="uicompo.billingNumber" placeholder="20Pxxxx" style="width: 150px;"
+                           type="text">
+                </div>
+                <div class="p-1">
+                    <button class="btn btn-warning" ng-click="searchBilling();"
+                            style="width: 40px;"
+                            title="Re - Print"
+                            type="button"><i
+                            class="fa fa-search"></i></button>
+                </div>
+                <div class="p-1">
+                    <button class="btn btn-danger" ng-click="clearScreen();" ng-show="uicompo.showItem"
+                            style="width: 40px;"
+                            type="button"><i aria-hidden="true" class="fa fa-broom"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-8" ng-show="uicompo.showItem">
+            <div class="form-group row pt-0 pb-0">
+
+
+                <div class="p-1" ng-show="uicompo.showItem">
+                    <label class="font-size-sm">Scan #</label>
+                </div>
+                <div class="p-1" ng-show="uicompo.showItem">
+                    <input class="form-control" ng-change="enableSave()" ng-model="patientScan.scanNumber" style="width: 100px;"
+                           type="text">
+                </div>
+                <div class="pl-1">
+                    <button class="btn btn-success" ng-click="saveModal();" ng-show="uicompo.showSave"
+                            title="Re - Print"
+                            type="button"><i aria-hidden="true" class="fa fa-save"></i>
+                    </button>
+                </div>
+
+                <div class="pl-1">
+                    <label class="font-size-sm">Age</label>
+                </div>
+                <div class="pl-1">
+                    <input class="form-control" disabled name="input" style="width: 60px;"
+                           ng-model="currentAge" type="text"/>
+                </div>
+                <div class="pl-1">
+                    <label class="font-size-sm">BTH</label>
+                </div>
+                <div class="pl-1">
+                    <input class="form-control" disabled name="input"
+                           ng-model="patient.bht" type="text" style="width: 100px;"/>
+                </div>
+
+                <div class="pl-1">
+                    <label class="font-size-sm">Sex</label>
+                </div>
+                <div class="pl-1">
+                    <input class="form-control" disabled name="input"
+                           ng-model="patient.gender" type="text" style="width: 150px;"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row pt-0" ng-show="uicompo.showItem">
+        <div class="pl-1">
+            <label>Patient </label>
+        </div>
+        <div class="pl-1">
+            <input class="form-control pl-6" disabled ng-model="patient.patientName"
+                   style="width: 250px;" type="text">
+        </div>
+        <div class="pl-1">
+            <label class="pl-4">SeenBy </label>
+        </div>
+        <div class="pl-1">
+            <input class="form-control" disabled name="input"
+                   ng-model="patientTest.seenBy" type="text"/>
+        </div>
+
+        <div class="pl-1">
+            <label class="pl-4">Test Name</label>
+        </div>
+
+        <div class="pl-1">
+            <input class="form-control" disabled name="input" style="width: 320px;"
+                   ng-model="patientTest.name" type="text" />
+        </div>
+
+    </div>
+
+    <div class="row p-1" ng-show="uicompo.showItem">
+        <div class="p-1"><label>Dose :</label></div>
+        <div class="p-1"><input name="input" ng-model="patientTest.name" type="text" style="width: 60px;" class="form-control"/></div>
+        <div class="p-1"><label>Value :</label></div>
+        <div class="p-1"><input name="input" ng-model="patientTest.name" type="text" style="width: 60px;" class="form-control"/></div>
+        <div class="p-1">
+            <select ng-change="onSelectTestType()" ng-disabled="disabledTestSelection"
+                    ng-model="uicompo.selectedTestType" style="width: 275px;">
+                <option ng-repeat="c in testTypeList">{{c.value}}</option>
+            </select>
+        </div>
+        <div class="p-1">
+            <select ng-change="onSelectTestType()" ng-disabled="disabledTestSelection"
+                    ng-model="uicompo.selectedTestType" style="width: 275px;">
+                <option ng-repeat="c in testTypeList">{{c.value}}</option>
+            </select>
+        </div>
+    </div>
+
+</div>
+
+<!--    <div class="raw pt-1 pb-1">
+        <div>
+            <span style="color: red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data has been not added to system until save </span> {{patient.dateCreated  | date:'yyyy-MM-dd'}}
+        </div>
+    </div>-->
+
+<div class="row l-raw pt-1 pr-1" ng-show="uicompo.showItem">
+    <div class="col-10 p-0">
+        <div class="container rounded" style="border:1px solid green">
+            <div class="row l-raw pt-3">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label>Procedure</label>
+                        </div>
+                        <div class="col-sm-10">
+                                <textarea cols="90"
+                                          name="input" ng-change="enableSave()" ng-model="patientScan.procedure"
+                                          rows="4"
+                                ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row l-raw pt-3">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label class="font-size-sm">Indication</label>
+                        </div>
+                        <div class="col-sm-10">
+                                <textarea cols="90"
+                                          name="input" ng-change="enableSave()" ng-model="patientScan.indication"
+                                          rows="4"
+                                ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row l-raw pt-3">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label class="font-size-sm">Finding</label>
+                        </div>
+                        <div class="col-sm-10">
+                                <textarea cols="90" name="input" ng-change="enableSave()"
+                                          ng-model="patientScan.finding" rows="4"
+                                ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row l-raw  pt-3 pb-3">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label class="font-size-sm">Impression</label>
+                        </div>
+                        <div class="col-sm-10">
+                                <textarea cols="90"
+                                          name="input" ng-change="enableSave()" ng-model="patientScan.impression"
+                                          rows="4"
+                                ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-2 pr-0 pl-4">
+        <div class="row">
+            <table class="table" id="fixTable">
+                <thead class="bg-secondary text-light">
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <button class="btn btn-success" ng-click="showImage();"
+                                ng-disabled="disabledLoadByBillingNum"
+                                title="Re - Print"
+                                type="button">Img
+                        </button>
+                    </td>
+                </tr>
+                <tr ng-repeat="itm in scanHistortyList | filter : searchKeyword">
+                    <td style="padding-bottom: 1px; padding-top: 1px;"><i ng-click="showHistory(itm);" src=""><span
+                            style="color: royalblue">{{itm}}</span></i>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="modal-scan-history">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">{{heading}}</h4>
+                <button class="close" data-dismiss="modal" type="button">&times;</button>
+            </div>
+            <form name="form" ng-submit="save_submit();" role="form">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container rounded" style="border:1px solid blanchedalmond">
+                        <div class="row l-raw">
+                            <div class="col-5">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label class="font-size-sm">Patient Name</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <span>{{uicompo.history.patientname}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label class="font-size-sm">Bill #</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <span>{{uicompo.history.billingnumber}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="row">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <label class="font-size-sm">Age: </label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <span>{{uicompo.history.age}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row l-raw">
+                            <div class="col-4">
+                                <label class="font-size-sm"><strong>Test Name</strong></label>
+                            </div>
+                            <div class="col-4">
+                                <label class="font-size-sm"><strong>Results :</strong></label>
+                            </div>
+                        </div>
+                        <div class="row l-raw">
+                            <div class="col-4">
+                                <span>{{uicompo.history.tests}}</span>
+                            </div>
+                            <div class="col-4">
+                                <span>{{patient.results}}</span>
+                            </div>
+                        </div>
+                        <!--<hr/>-->
+                        <div>
+                            <table class="table">
+                                <!--                                <thead>
+                                                                <tr>
+                                                                    <th width="40%">Test Name</th>
+                                                                    <th width="10%">unit</th>
+                                                                    <th width="50%">Reference</th>
+                                                                </tr>
+                                                                </thead>-->
+                                <tbody>
+                                <tr ng-repeat="itm in uicompo.historyLst">
+                                    <th>{{itm.name}}</th>
+                                    <th>{{itm.units}}</th>
+                                    <th>{{itm.reference}}</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

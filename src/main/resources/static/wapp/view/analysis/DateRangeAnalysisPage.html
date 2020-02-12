@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="row">
+<!--        <div class="col-sm-8 text-primary">
+            <label class="fleft p-0" for="testLst">Test Name : </label>
+            <select class="form-control fleft"
+                    id="testLst" ng-change="onSelectAdminUser()"
+                    ng-model="statics.testLst"
+                    ng-options="pmt as pmt.name for pmt in testList" style="width: 350px;"/>
+        </div>-->
+<!--        <div class="col-sm-8">
+            <button class="btn btn-primary" ng-click="genderStaticsByTest()" type="submit">Submit</button>
+        </div>-->
+    </div>
+
+    <div class="row pt-5">
+        <div class="col-sm-4 tcenter">
+            <div class="alert alert-primary" role="alert">
+                <h4>Patients by Tests</h4>
+            </div>
+            <div class="col-sm-8 input-group">
+                <select class="form-control"
+                        ng-model="uicompo.selectedTestId" style="width: 250px;" ng-change="onChangeTestName();">
+                    <option ng-repeat="(key, value) in  medicalTestList"  value="{{key}}">{{value}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row pt-5">
+        <div class="col-sm-4 tcenter">
+            <div id="patientByTest"></div>
+        </div>
+    </div>
+
+
+    <div class="row pt-5">
+        <div class="col-sm-4 tcenter">
+            <div class="alert alert-primary" role="alert">
+                    <h4>Patient</h4>
+                </div>
+            <div id="patientChart"></div>
+        </div>
+        <div class="col-sm-4 tcenter">
+            <div class="alert alert-primary" role="alert">
+                <h4>Medical Test</h4>
+            </div>
+            <div id="testChart"></div>
+        </div>
+
+    </div>
+
+
+</div>

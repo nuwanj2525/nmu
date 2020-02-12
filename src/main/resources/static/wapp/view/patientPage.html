@@ -1,0 +1,243 @@
+<div class="container-fluid">
+
+    <div class="modal fade" id="modal-p-search">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Patient Search</h4>
+                    <button class="close" data-dismiss="modal" type="button">&times;</button>
+                </div>
+                <form name="form" role="form">
+                    <div class="modal-body">
+                        <div class="container rounded" style="border:1px solid blanchedalmond">
+                            <div class="row pt-3 pb-3">
+                                <div class="col-sm-4 input-group">
+                                    <label class="font-size-sm">Patient ID</label>
+                                </div>
+                                <div class="col-sm-8 input-group">
+                                    <input list="patientId" class="pr-2" ng-change="changeSearchNumber()"
+                                           ng-keypress="keypressId($event)"
+                                           ng-model="uicompo.patientId"
+                                           type="text">
+                                    <datalist id="patientId" ng-model="uicompo.patientId">
+                                        <option ng-repeat="p in ptestList">{{p}}</option>
+                                    </datalist>
+
+                                    &nbsp;&nbsp;
+                                    <button class="btn btn-warning pr-1" ng-click="recordSearch();" ng-disabled="btnDisabledRecSearch"
+                                            style="width: 45px;"
+                                            title="Search for Record"
+                                            type="button"><i
+                                            class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="raw">
+            <div class="col-sm-12">
+                <div class="d-flex justify-content-sm-end">
+                    <button class="btn-btn-link" data-toggle="tooltip" ng-click="showRecordSearch()" title="RecordSearch">
+                        <i class="text-warning fa fa-search"></i>
+                    </button>
+                    <div class="input-group col-md-4 input-group-sm form-inline" ng-init="searchKeyword=''">
+                        <input class="form-control" ng-model="searchKeyword" placeholder="Search" type="text">
+                    </div>
+                    <button class="btn-btn-link" data-toggle="tooltip" ng-click="showUI(null,'add')" title="Add">
+                        <i class="text-warning fa fa-plus"></i>
+                    </button>
+                    <button class="btn-btn-link" data-toggle="tooltip" ng-click="refresh()" title="Refresh">
+                        <i class="text-warning fa fa-refresh"></i>
+                    </button>
+                    <button class="btn-btn-link" data-toggle="tooltip" ng-click="" title="History">
+                        <i class="text-warning fa fa-history"></i>
+                    </button>
+                    <button class="btn-btn-link" data-toggle="tooltip" ng-click="" title="Upload">
+                        <i class="text-warning fa fa-upload"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    <hr/>
+    <div class="raw view">
+        <div class="wrapper table table-sm table-hover table-bordered" id="parent">
+            <table class="table" id="fixTable">
+                <thead class="bg-secondary text-light">
+                <tr>
+                    <th class="first-col" width="2%">&nbsp;</th>
+                    <th>PATIENTID</th>
+                    <th>PATIENTNAME</th>
+                    <th>SEX</th>
+                    <th>DATEOFBIRTH</th>
+                    <th>NICNumber</th>
+                    <th>TELNUMBER</th>
+                    <th>DATECREATED</th>
+                    <th>STATUS</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-dblclick="showUI(itm,'edit')" ng-repeat="itm in patientList | filter : searchKeyword">
+                    <td class="first-col">
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-link btn-sm" data-toggle="tooltip" ng-click="showUI(itm,'delete')"
+                                    title="">
+                                <span class="text-danger"><i class="fa fa-times"></i></span>
+                            </button>
+                        </div>
+                    </td>
+                    <th>{{itm.patientId}}</th>
+                    <th>{{itm.patientName}}</th>
+                    <th>{{itm.gender}}</th>
+                    <th>{{itm.dateOfBirth | date:'yyyy/MM/dd'}}</th>
+                    <th>{{itm.nicNumber}}</th>
+                    <th>{{itm.telNumber}}</th>
+                    <th>{{itm.dateCreated | date:'yyyy/MM/dd hh:mm'}}</th>
+                    <th>{{itm.status}}</th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<!--    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>-->
+
+
+
+
+    <div class="modal fade" id="modal-inv">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">{{heading}}</h4>
+                    <button class="close" data-dismiss="modal" type="button">&times;</button>
+                </div>
+                <form name="form" role="form">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="row pb-1">
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="font-size-sm">Patient</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input ng-disabled="itemDisabled" ng-model="patient.patientId" type="text"
+                                               disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="font-size-sm">NIC #</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input ng-disabled="itemDisabled" ng-model="patient.nicNumber" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="font-size-sm">Other</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input ng-disabled="itemDisabled" ng-model="patient.other" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pb-1">
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="font-size-sm">Patient Name</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input ng-disabled="itemDisabled" ng-model="patient.patientName" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="font-size-sm">Tel #</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input ng-disabled="itemDisabled" ng-model="patient.telNumber" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="font-size-sm">DOB</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input ng-disabled="itemDisabled" ng-model="patient.dateOfBirth" type="date">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row pb-1">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <label class="font-size-sm">Gender</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        MALE <input name="gender" ng-model="patient.gender" type="radio" value="MALE"/>
+                                        FEMALE <input name="gender" ng-model="patient.gender" type="radio"
+                                                      value="FEMALE"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <!--                            <div class="row">
+                                                                <div class="col-sm-3">
+                                                                    <label class="font-size-sm">SeenBy</label>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <input ng-disabled="itemDisabled" ng-model="patient.seenBy" type="text">
+                                                                </div>
+                                                            </div>-->
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-12">
+                            <div class="d-flex justify-content-sm-end">
+                                <button class="btn btn-primary" data-dismiss="modal" ng-click="saveModal()"
+                                        type="button">
+                                    Save
+                                </button>&nbsp;
+                                <button class="btn btn-danger" data-dismiss="modal" type="button">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

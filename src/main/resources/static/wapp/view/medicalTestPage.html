@@ -1,0 +1,301 @@
+<div class="container-fluid">
+    <div class="raw">
+        <div class="d-flex justify-content-sm-end">
+            <div class="input-group col-md-4 input-group-sm form-inline">
+                <input class="form-control" ng-keypress="keypressId($event)" ng-model="uicompo.search"
+                       placeholder="Search"
+                       type="text">
+            </div>
+            <button class="btn-btn-link" data-toggle="tooltip" ng-click="showUI(null,'add')" title="Add">
+                <i class="text-warning fa fa-plus"></i>
+            </button>
+            <button class="btn-btn-link" data-toggle="tooltip" ng-click="refresh()" title="Refresh">
+                <i class="text-warning fa fa-refresh"></i>
+            </button>
+            <button class="btn-btn-link" data-toggle="tooltip" ng-click="" title="History">
+                <i class="text-warning fa fa-history"></i>
+            </button>
+            <button class="btn-btn-link" data-toggle="tooltip" ng-click="" title="Upload">
+                <i class="text-warning fa fa-upload"></i>
+            </button>
+        </div>
+    </div>
+    <div class="raw view">
+        <div class="wrapper table table-sm table-hover table-bordered" id="parent">
+            <table class="table" id="fixTable">
+                <thead class="bg-secondary text-light">
+                <tr>
+                    <th class="first-col" width="2%">&nbsp;</th>
+
+                    <th width="3%">#</th>
+                    <th width="40%">TEST NAME</th>
+                    <th width="3%">TYPE</th>
+                    <th width="5%">Price</th>
+                    <th width="5%">Lab</th>
+                    <th width="5%">Fin/Ref</th>
+                    <th>ACTIONBY</th>
+                    <th>DATECREATED</th>
+                    <th>LASTMODIFIED</th>
+                    <th>STATUS</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-dblclick="showUI(itm,'edit')" ng-repeat="itm in medicalTestList">
+                    <td class="first-col">
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-link btn-sm" data-toggle="tooltip" ng-click="showUI(itm,'delete')"
+                                    title="">
+                                <span class="text-danger"><i class="fa fa-times"></i></span>
+                            </button>
+                        </div>
+                    </td>
+                    <td>{{itm.testNumber}}</td>
+                    <td>{{itm.name}}</td>
+                    <td>{{itm.testType}}</td>
+                    <td>{{itm.price}}</td>
+                    <td>{{itm.labType}}</td>
+                    <td>{{itm.financeId}}</td>
+                    <td>{{itm.actionBy}}</td>
+                    <td>{{itm.dateCreated | date:'shortDate'}}</td>
+                    <td>{{itm.lastModified | date:'shortDate'}}</td>
+                    <td>{{itm.status}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div aria-hidden="true" class="modal fade" id="modal-inv" role="dialog" tabindex="-1">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h4 class="modal-title">{{heading}}</h4>
+                <button class="close" data-dismiss="modal" type="button">&times;</button>
+            </div>
+            <form name="form" ng-submit="save_submit();" role="form">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label class="font-size-sm">Type</label>
+                        </div>
+                        <div class="col-sm-6">
+                            P <input name="testType" ng-disabled="itemDisabled" ng-model="mtest.testType"
+                                     type="radio"
+                                     value="P"/>&nbsp;&nbsp;
+                            S <input name="testType" ng-disabled="itemDisabled" ng-model="mtest.testType"
+                                     type="radio"
+                                     value="S"/>&nbsp;&nbsp;
+                            H <input name="testType" ng-disabled="itemDisabled" ng-model="mtest.testType"
+                                     type="radio"
+                                     value="H"/>&nbsp;&nbsp;
+                            W <input name="testType" ng-disabled="itemDisabled" ng-model="mtest.testType"
+                                     type="radio"
+                                     value="H"/>&nbsp;&nbsp;
+                        </div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="font-size-sm">Lab</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    BLOOD <input name="labType" ng-disabled="itemDisabled" ng-model="mtest.labType"
+                                             type="radio"
+                                             value="BLOOD"/>&nbsp;&nbsp;
+                                    SCAN <input name="labType" ng-disabled="itemDisabled" ng-model="mtest.labType"
+                                             type="radio"
+                                             value="SCAN"/>&nbsp;&nbsp;
+                                </div>
+                                <div class="col-sm-2 left-content" ng-show="mtest.labType == 'SCAN'">
+                                    <label class="font-size-sm">Lab</label>
+                                </div>
+                                <div class="col-sm-1 left-content" ng-show="mtest.labType == 'SCAN'">
+                                    <button class="btn btn-secondary" data-toggle="tooltip"
+                                            ng-click="addScanType()"
+                                            title="Add Scan Type">
+                                        <i class="text-warning fa fa-upload"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="font-size-sm">Test #</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input ng-disabled="itemDisabled" ng-model="mtest.testNumber"
+                                           style="width: 150px;"
+                                           type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="font-size-sm">Test Name</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input ng-disabled="itemDisabled" ng-model="mtest.name" style="width: 350px;"
+                                           type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="font-size-sm">Price</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input forma ng-disabled="itemDisabled" ng-model="mtest.price" step=".01"
+                                           style="width: 75px;" type="billingNumber">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-sm-9">&nbsp;</div>
+                        <div class="col-sm-3 left-content">
+                            <button class="btn btn-primary" ng-click="saveModal()" type="button">Save</button>
+                            <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div aria-hidden="true" class="modal fade" id="modal-scan-types" role="dialog" tabindex="-1">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header ">
+                <h4 class="modal-title">{{heading}}</h4>
+                <button class="close" data-dismiss="modal" type="button">&times;</button>
+            </div>
+            <form name="form" ng-submit="save_submit();" role="form">
+                <div class="modal-body">
+                    <div class="row pt-1">
+                        <div class="col-sm-4">
+                            <div class="row">
+                                <div class="col-sm-4">Scan#1</div>
+                                <div class="col-sm-6">
+                                    <input ng-disabled="itemDisabled" ng-model="mtest.financeId"
+                                           style="width: 100px;"
+                                           type="text">
+                                </div>
+                                <div class="col-sm-2 left-content">
+                                    <button class="btn btn-secondary" data-toggle="tooltip"
+                                            ng-click=""
+                                            title="">
+                                        <i class="text-success fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6"><span class="disp-value">{{mtest.optTests}}</span></div>
+                    </div>
+                    <hr/>
+                    <div class="row pt-2">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label class="font-size-sm">Sex</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="font-size-sm">Min</label>
+                                    <label class="font-size-sm">Max</label>
+                                    <label class="font-size-sm">&nbsp;Unit</label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="font-size-sm">Reference</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row pt-2">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    M&nbsp;<input name="sex" ng-model="uicompo.ref.gender"
+                                                  type="radio"
+                                                  value="MALE"/>&nbsp;&nbsp;
+                                    F&nbsp;<input name="sex" ng-model="uicompo.ref.gender"
+                                                  type="radio"
+                                                  value="FEMALE"/>&nbsp;&nbsp;
+                                </div>
+                                <div class="col-sm-7">
+                                    <input class="pl-0 pr-0" ng-model="uicompo.ref.ageMin" style="width: 40px;"
+                                           type="number"
+                                           value="0">
+                                    <input class="pl-0 pr-0" ng-model="uicompo.ref.ageMax" style="width: 40px;"
+                                           type="number"
+                                           value="0">
+                                    <input class="pl-0 pr-0" ng-model="uicompo.ref.unit" placeholder="xx/mg"
+                                           style="width: 70px;"
+                                           type="text">
+                                    <textarea class="pl-0 pr-0" ng-model="uicompo.ref.reference" rows="1"
+                                              style="width: 250px"
+                                    ></textarea>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button class="btn btn-info" ng-click="addReference()" type="button">Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row pt-3">
+                        <div class="col-12">
+                            <table class="table">
+                                <thead class="bg-secondary text-light">
+                                <tr>
+                                    <th width="3%">#</th>
+                                    <th width="4%">Sex</th>
+                                    <th width="3%">Min</th>
+                                    <th width="3%">Max</th>
+                                    <th width="3%">Unit</th>
+                                    <th width="50%">Reference</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="itm in uicompo.refLst">
+                                    <td class="first-col">
+                                        <div class="d-flex justify-content-center">
+                                            <button class="btn btn-link btn-sm" data-toggle="tooltip"
+                                                    ng-click="deleteRefItem(itm)"
+                                                    title="">
+                                                <span class="text-danger"><i class="fa fa-times"></i></span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>{{itm.gender}}</td>
+                                    <td>{{itm.ageMin}}</td>
+                                    <td>{{itm.ageMax}}</td>
+                                    <td>{{itm.unit}}</td>
+                                    <td>{{itm.reference}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

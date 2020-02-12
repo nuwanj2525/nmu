@@ -1,0 +1,22 @@
+.modal-wrapper{
+    background: #777777;
+}
+
+modal-content {
+    background-color: coral;
+    border: 1px solid red;
+    border-radius: .3rem;
+    outline: #555555;
+}
+
+.modal-backdrop {
+    position: inherit;
+}
+
+body.modal-open .supreme-container{
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
+}

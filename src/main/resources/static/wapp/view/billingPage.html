@@ -1,0 +1,459 @@
+<div class="container pt-0">
+    <div class="row pb-3">
+        <div class="col-sm-6 text-primary">
+            <h5 ng-if="showMediTest">Patient Registration # {{patient.patientId}}</h5>
+        </div>
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row d-flex flex-row-reverse">
+                        <button class="btn btn-danger" ng-click="clearCurrentPatient()" ng-show="btnReset"
+                                style="width: 45px;"
+                                type="button"><i
+                                aria-hidden="true" class="fa fa fa-reply"></i></button>
+                        <span class="pl-sm-1" ng-show="btnReset"></span>
+
+                        <button class="btn btn-danger pr-sm-1" ng-click="delete();" ng-show="btnDelShow"
+                                style="width: 45px;"
+                                type="button"><i
+                                aria-hidden="true" class="fa fa-trash"></i></button>
+                        <span class="pl-sm-1" ng-show="btnDelShow"></span>
+
+                        <button class="btn btn-info pr-sm-1" ng-click="edit();" ng-show="btnEditShow"
+                                style="width: 45px;"
+                                type="button"><i
+                                aria-hidden="true" class="fa fa-wrench"></i></button>
+                        <span class="pl-sm-1" ng-show="btnEditShow"></span>
+
+                        <button class="btn btn-primary pr-sm-1" ng-click="addNewPatient();" ng-show="btnAddShow"
+                                style="width: 45px;"
+                                type="button"><i
+                                aria-hidden="true" class="fa fa-plus-circle"></i></button>
+                        <span class="pl-sm-1" ng-show="btnAddShow"></span>
+
+                        <button class="btn btn-warning pr-sm-1" ng-click="showSearch();" ng-show="btnSearch"
+                                style="width: 45px;" type="button">
+                            <i aria-hidden="true" class="fa fa-search"></i></button>
+                        <span class="pl-sm-1" ng-show="btnSearch"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container rounded" style="border:1px solid blanchedalmond">
+        <div class="row l-raw">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label class="font-size-sm">Patient</label>
+                    </div>
+                    <div class="col-sm-10">
+                        <input ng-disabled="uicompo.itemDisabled" ng-model="patient.patientName" style="width: 350px;" class="form-control"
+                               type="text">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label class="font-size-sm">District</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <select class="form-control" ng-disabled="uicompo.itemDisabled" class="form-control"
+                                ng-model="patient.districtName" style="width: 250px;">
+                            <option ng-repeat="c in districtByList">{{c.name}}</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row l-raw">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label class="font-size-sm">Address</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input ng-disabled="uicompo.itemDisabled" ng-model="patient.patientAddress" class="form-control"
+                               style="width: 400px;"
+                               type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label class="font-size-sm">NIC #</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input ng-disabled="uicompo.itemDisabled" ng-model="patient.nicNumber" class="form-control"
+                               ng-select="findByNicNumber()"
+                               type="text">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row l-raw">
+            <div class="col-3">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label class="font-size-sm">Sex</label>
+                    </div>
+                    <div class="col-sm-10" class="form-group">
+                        Male <input name="gender" ng-disabled="uicompo.itemDisabled" ng-model="patient.gender"
+                                    type="radio"
+                                    value="MALE"/>
+                        Female <input name="gender" ng-disabled="uicompo.itemDisabled" ng-model="patient.gender"
+                                      type="radio"
+                                      value="FEMALE"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label class="font-size-sm">BHT</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input name="input" ng-disabled="uicompo.itemDisabled" ng-model="patient.bht" class="form-control"
+                                   title="BHD"
+                                   type="test"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label class="font-size-sm">DOB</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <input name="input" ng-disabled="uicompo.itemDisabled" ng-model="patient.dateOfBirth"
+                               title="Enter a date in this format YYYY-MM-DD" class="form-control"
+                               type="date"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <label ng-show="patient.currentAge" class="font-size-sm red">Age : {{patient.currentAge}}</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-success" ng-click="saveModal();" ng-disabled="isDisabledSave" class="form-control"
+                                style="width: 50px;"
+                                type="button"><i
+                                aria-hidden="true" class="fa fa-save"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row pb-1">
+            <div class="col-sm-12 text-right" >
+
+            </div>
+        </div>
+    </div>
+    <div ng-if="showMediTest">
+        <br>
+        <div class="row pt-1 pb-1">
+
+            <div class="col-sm-9">
+
+            <button class="btn btn-primary pr-sm-1" ng-click="showAddTest();" ng-disabled="disabledAddTest"
+                    style="width: 45px;"
+                    title="Add Test to the Patient Test list"
+                    type="button"><i
+                    class="fa fa-plus-circle"></i></button>
+            <span class="pl-sm-1" ng-show="true"></span>
+
+            <button class="btn btn-warning pr-sm-1" ng-click="saveTestList();" ng-disabled="disabledSaveTestList"
+                    style="width: 45px;"
+                    title="Save Test List"
+                    type="button"><i
+                    class="fa fa-save"></i></button>
+            <span class="pl-sm-1" ng-show="true"></span>
+
+            <button class="btn btn-warning pr-sm-1" ng-click="serchOldBillNo();" ng-disabled="disabledLoadByBillingNum"
+                    style="width: 45px;"
+                    title="Re - Print"
+                    type="button"><i
+                    class="fa fa-search"></i></button>
+            <span class="pl-sm-1" ng-show="true"></span>
+
+            <button class="btn btn-info pr-sm-1" ng-click="printPage()" ng-disabled="disabledPrintPage"
+                    style="width: 45px;"
+                    title="Print Report"
+                    type="button"><i
+                    class="fa fa fa-print"></i></button>
+            <span class="pl-sm-1" ng-show="true"></span>
+
+            <button class="btn btn-danger" ng-click="resetTList()" ng-disabled="disabledResetTestList"
+                    style="width: 45px;"
+                    type="button"><i
+                    aria-hidden="true" class="fa fa fa-reply"></i></button>
+            <span class="pl-sm-1" ng-show="btnReset"></span>
+
+            </div>&nbsp;&nbsp;&nbsp;
+            <div class="col-sm-2 p-0 m-0  text-right">
+                <span ng-show="uicompo.selectedTotal > 0" class="p-0 m-0"><B>Total Amt: </B>
+                    <strong class="p-0 m-0" style="color: darkred">{{uicompo.selectedTotal | currency:"Rs.":2 }}</strong>
+                </span>
+            </div>&nbsp;
+
+        </div>
+
+        <div class="raw view pt-1">
+            <div class="wrapper table table-sm table-hover table-bordered" id="parent">
+                <table class="table" id="fixTable">
+                    <thead class="bg-secondary text-light">
+                    <tr>
+                        <th width="2%"  ng-show="!rePrint">#</th>
+                        <th width="15%">Bill #</th>
+                        <th width="5%">Type</th>
+                        <th width="15%">Test #</th>
+                        <th width="35%">Medical Test Name</th>
+                        <th width="10%">Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-dblclick="showUI(itm,'edit')"
+                        ng-repeat="itm in billingList | filter : searchKeyword">
+                        <td class="first-col" ng-show="!rePrint">
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-link btn-sm" data-toggle="tooltip"
+                                        ng-click="showUI(itm,'delete')"
+                                        title="">
+                                    <span class="text-danger"><i class="fa fa-times"></i></span>
+                                </button>
+                            </div>
+                        </td>
+                        <th>{{itm.billingNumber}}</th>
+                        <th>{{itm.testType}}</th>
+                        <th>{{itm.testNumber}}</th>
+                        <th>{{itm.name}}</th>
+                        <th>{{itm.price | currency:"Rs ":2}}</th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</div>
+
+<div class="modal fade" id="modal-billing-search">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Search Patient</span></h4>
+                <button class="close" data-dismiss="modal" type="button">&times;</button>
+            </div>
+            <form name="form" ng-submit="save_submit();" role="form">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container rounded" style="border:1px solid blanchedalmond">
+                        <div class="row pt-3">
+                            <div class="col-sm-4 input-group">
+                                <label class="font-size-sm">SEARCH ID</label>
+                            </div>
+                            <div class="col-sm-5 input-group">
+                                <input list="patientId" ng-change="loadPatientList()" placeholder="Ex: 200100" data-toggle="tooltip" data-placement="top" title="Patient ID Ex: 190100"
+                                       ng-keypress="keypressId($event)"
+                                       ng-model="patient.patientId"
+                                       type="text">
+                                <datalist id="patientId" ng-model="patient.patientId">
+                                    <option ng-repeat="p in ptestList">{{p}}</option>
+                                </datalist>
+                            </div>
+                            <div class="col-sm-1 input-group">
+                                &nbsp;OR
+                            </div>
+                        </div>
+                        <div class="row mt-1 mb-1">
+                            <div class="col-sm-4 input-group">
+                                <label class="font-size-sm">NIC #</label>
+                            </div>
+                            <div class="col-sm-8 input-group">
+                                <input list="nicNumber" ng-change="loadPatientListByNIC()" placeholder="Ex: 111111111v" data-toggle="tooltip" data-placement="top" title="Ex: 111111111v"
+                                       ng-keypress="keypressNic($event)"
+                                       ng-model="patient.nicNumber"
+                                       type="text">
+                                <datalist id="nicNumber" ng-model="patient.nicNumber">
+                                    <option ng-repeat="p in ptestList">{{p.nicNumber}}</option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="raw">
+                            <div class="col-sm-12 text-right">
+                                <button class="btn btn-primary mb-2 btn-md" ng-click="loadPatientId();" ng-disabled="disabledAddTest"
+                                        type="button">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-add-test">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">ADD MEDICAL TEST</h4>
+                <button class="close" data-dismiss="modal" type="button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="container rounded" style="border:1px solid darkgreen">
+                    <div class="row pt-3">
+                        <div class="col-sm-4 input-group">
+                            <label class="font-size-sm">SeenBy</label>
+                        </div>
+                        <div class="col-sm-8 input-group">
+                            <select class="form-control" ng-disabled="disabledTestSelection"
+                                    ng-model="patient.seenBy" style="width: 250px;">
+                                <option ng-repeat="c in seenByList">{{c.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row pt-3">
+                        <div class="col-sm-4 input-group">
+                            <label class="font-size-sm">Type</label>
+                        </div>
+                        <div class="col-sm-8 input-group">
+                            <select class="form-control" ng-change="onSelectTestType()"  ng-disabled="disabledTestSelection"
+                                    ng-model="uicompo.selectedTestType" style="width: 75px;">
+                                <option ng-repeat="c in testTypeList">{{c.value}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row pt-3">
+                        <div class="input-group">
+                            <div class="col-sm-4">
+                                <label class="font-size-sm">Billing #</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input ng-model="uicompo.billingNumber" type="text"  ng-disabled="disabledTestSelection">
+                            </div>
+                            <div class="col-sm-2">
+                                <button ng-click="copyBillNumber()"  ng-disabled="disabledTestSelection"
+                                        type="button">
+                                    <span style="color: SlateBlue">Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row pt-3">
+                        <div class="col-sm-4 input-group">
+                            <label class="font-size-sm">TEST</label>
+                        </div>
+                        <div class="col-sm-8 input-group">
+                            <select class="form-control" ng-model="uicompo.selectedTest"
+                                    style="width: 250px;">
+                                <option ng-repeat="item in mediTestList" value="{{item}}">{{item.name}} -
+                                    {{item.price | currency:"Rs ":2}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row pt-3 pb-3 input-group">
+                        <div class="col-sm-4 p-0">
+                            <label class=" ">Next Available #</label>
+                        </div>
+                        <div class="col-sm-2 p-0">
+                            <label class="font-size-sm red">{{uicompo.showBillingNumber}}</label>
+                        </div>
+                        <div class="col-sm-6 d-flex flex-row-reverse">
+                            <div class="col-sm-12 pl-2" style="padding-left: 0px; left: 85px;">
+                                <button ng-click="addSelectedTest()" class="btn btn-success"
+                                        type="button">
+                                    <span>Add</span>
+                                </button>
+                                <button data-dismiss="modal" class="btn btn-danger"
+                                        type="button">
+                                    <span>Close</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal-old-billing-search">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">SEARCH FOR BILL</h4>
+                <button class="close" data-dismiss="modal" type="button">&times;</button>
+            </div>
+            <form name="form" role="form">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container rounded" style="border:1px solid blanchedalmond">
+                        <div class="row pt-3 pb-3">
+                            <div class="col-sm-4 input-group">
+                                <label class="font-size-sm">SEARCH ID</label>
+                            </div>
+                            <div class="col-sm-8 input-group">
+                                <input class="pr-3" ng-disabled="disabledTxtBillingNumber"
+                                       ng-model="uicompo.billingNumber"
+                                       style="width: 150px;" type="text">
+
+                                <button class="btn btn-warning pr-sm-1" ng-click="loadByBillingNum();"
+                                        ng-disabled="disabledLoadByBillingNum"
+                                        style="width: 45px;"
+                                        title="Re - Print"
+                                        type="button"><i
+                                        class="fa fa-search"></i></button>
+                                <span class="pl-sm-1" ng-show="true"></span>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="myDiv">
+    <html>
+    <head>
+        <title>Printing Bill</title>
+    </head>
+
+    <boda>
+
+    </boda>
+
+    </html>
+</div>
+
+
+
+
+
